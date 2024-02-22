@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Max Profit Problem</title>
+  <style>
+    body {
+        display: flex;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      align-content: center;
+      justify-content: center;
+    }
+    #output {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <div><h1>Max Profit Problem Solver</h1></div>
+  <div><label for="timeUnit">Enter Time Unit:</label>
+    <input type="number" id="timeUnitInput" min="1" step="1" value="1">
+    <button onclick="calculateEarnings()">Calculate Earnings</button></div>
+
+  <div id="output"></div>
+  </div>
+
+  <script>
+    let arr = [0, 0, 0];
+    const timeUnit = [4, 5, 10];
+
+    function find(n) {
+        let pr = 0;
+        let prof = [0, 0, 0];
+
+        if (n < 4) {
+            return 0;
+        } else {
+            let temp = n - 4;
+            prof[0] = temp * 1000;
+
+            if (n >= 5) {
+                temp = n - 5;
+                prof[1] = temp * 1500;
+
+                if (n >= 10) {
+                    temp = n - 10;
+                    prof[2] = temp * 3000;
+                }
+            }
+        }
+
+        const maxIndex = getMax(prof);
+        pr += prof[maxIndex];
+        arr[maxIndex]++;
+        return pr + find(n - timeUnit[maxIndex]);
+    }
+
+    function getMax(prof) {
+        if (prof[0] >= prof[1]) {
+            if (prof[0] >= prof[2]) {
+                return 0;
+            } else {
+                return 2;
+            }
+        } else if (prof[1] >= prof[2]) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    function calculateEarnings() {
+        const timeUnitInput = document.getElementById("timeUnitInput");
+        const n = parseInt(timeUnitInput.value);
+        const earnings = find(n);
+        const output = document.getElementById("output");
+        output.textContent = `Earnings: $${earnings}\nSolution: T: ${arr[1]}, P: ${arr[0]}, C: ${arr[2]}`;
+    }
+  </script>
+
+</body>
+</html>
